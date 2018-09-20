@@ -1,0 +1,57 @@
+---
+title: "hw02-Explore Gapminder and use dplyr"
+author: JennyHuang
+date: 2018-09-20
+output: github_document
+---
+Load the data
+```{r}
+install.packages("gapminder")
+install.packages("tidyverse")
+library(gapminder)
+library(tidyverse)
+```
+
+#Smell test the data
+gapminder is a tibble, a dataframe that make working in the tidyverse easier. To explore gapminder, 
+```{r}
+structure(gapminder)
+class(gapminder)
+```
+According class()function, the class of gapminder is a dataframe
+
+To check number of columns and rows, we can use ncol() and nrow() functions. When using structure() in Console, it will also show: a tibble: 1704*6 that means there are 6 columns and 1704 rows.
+```{r}
+ncol(gapminder)
+nrow(gapminder)
+```
+#Explore individual variables
+To see the range of individual variables, we can use range(), for example:
+```{r}
+range(gapminder$pop) ## example of a quantitative variable
+range()
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+summary(cars)
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
