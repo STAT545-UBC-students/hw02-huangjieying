@@ -13,24 +13,12 @@ library(tidyverse)
 ```
 
 #Smell test the data
-gapminder is a tibble, a dataframe that make working in the tidyverse easier. To explore gapminder, 
-```{r}
-structure(gapminder)
-class(gapminder)
-```
+
 According class()function, the class of gapminder is a dataframe
 
-To check number of columns and rows, we can use ncol() and nrow() functions. When using structure() in Console, it will also show: a tibble: 1704*6 that means there are 6 columns and 1704 rows.
-```{r}
-ncol(gapminder)
-nrow(gapminder)
-```
+
 #Explore individual variables
-To see the range of individual variables, we can use range(), for example:
-```{r}
-range(gapminder$pop) ## example of a quantitative variable
-range()
-```
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
