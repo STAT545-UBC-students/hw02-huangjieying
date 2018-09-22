@@ -13,15 +13,143 @@ library(tidyverse)
 ```
 
 #Smell test the data
+Before exploring the dataset in detail, I will take a look at the head and tail of the dataset.
+```{r}
+head(gapminder) ## this allows us to see the top six rows of the data
 
-According class()function, the class of gapminder is a dataframe
+tail(gapminder) ## this allows us to see the bottom six rows of the data
+```
 
+To determine whether 'gapminder' is a list, a vector, a matrix, or a dataframe, we can use `str()` function: 
+```{r}
+str(gapminder) # this tells use that gapminder is a tibble, a dataframe that make working in the tidyverse easier. 
+```
+`str()` function not only tells the type/class of gapminder, it also shows that this dataset contains 1704 observations and 6 variables. 
+
+We can also use `class()` to explore the type of gapminder. 
+```{r}
+class(gapminder)
+```
+`class() `function also confirms that gapminder is a dataframe!
+
+Although `str()` already tells number of columns and rows in gapminder, there are different command we can use to check it. 
+```{r}
+ncol(gapminder) ## column=6
+nrow(gapminder)  ## row=1704
+```
+To check data type of each variable, we can also use `str()`
+```{r}
+str(gapminder)
+```
+From `str()` output, we can see that:
+* country is factor
+* continent is factor
+* year is integar 
+* lifeExp is number
+* population is integar
 
 #Explore individual variables
+First, I will select variables I want to explore from gapminder
+```{r}
+life=gapminder$lifeExp ## this is a quantitative variable
+continent=gapminder$continent ## this is a categorical variable
+```
 
+There are different ways to check the range of individual variables. The `range()`, `min()`, `max()` function tells us the possible values of life expectancy. 
+```{r}
+range(life) ## gives the range of life expendence 
+min(life)
+max(life)
+```
+For categorical variable, we can use `table()` function to check the count value under each categories.
+```{r}
+table(continent) ## example of a categorical variable
+```
+
+Explore various plot types
+First, I want to explore the relationship between life expectancy and gdp per capita in Americas.
+```{r}
+gapminder %>% 
+  filter(continent=='Americas') %>% 
+  ggplot(aes(lifeExp, gdpPercap))+geom_point()
+```
+Noticed the relationship between life expectancy and gdp per capita in Americas, now I want to explore life expectancy along, see how the data is distributed. Let's explore this within Asia countries this time
+```{r}
+gapminder %>% 
+  filter(continent=='Asia') %>% 
+  ggplot( aes(lifeExp))+
+  geom_histogram(bins=50)
+```
+What does it look like when life expectancy is between 60 and 80? This time I will combine histogram with density plot:
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+gapminder %>% 
+  filter(continent=='Asia') %>% 
+  filter(lifeExp<='80'&lifeExp>='60') %>% 
+  ggplot( aes(lifeExp)) +
+  geom_histogram(aes(y=..density.., fill="orange"))+
+  geom_density()
+```
+How does the life expectancy varies among continents? One way to explore this is to use boxplot
+```{r}
+gapminder %>% 
+  ggplot(aes(continent,lifeExp, fill=continent)) +
+  geom_boxplot()+
+  scale_fill_brewer(palette = "Pastel2")
+```
+Another way to look at this is using the combination of violin and jitter. This will maximize the presentation of actual data.
+```{r}
+gapminder %>% 
+  ggplot(aes(continent,lifeExp, fill=continent)) +
+geom_violin()+
+  geom_jitter(alpha =0.2)+
+  scale_fill_brewer(palette = "Pastel2")+
+  guides(fill=FALSE) ## Noticed from bove boxplot, we propobaly don't need a legend since it already show color for each continent
+```
+
+Use filter(), select() and %>%
+Now I will use both `filter()` and `select()`, and piping into `ggplot()`. This time let explore the relationship between life expectancy range from 50 to 80 and gdp per capita in a different scale.
+```{r}
+gapminder %>% 
+  select(continent,lifeExp,gdpPercap) %>% 
+  filter(continent=='Europe'|continent=='Asia') %>% 
+  filter(lifeExp<='80'&lifeExp>='50') %>% 
+  ggplot(aes(lifeExp, gdpPercap, color=continent)) +
+  geom_point()+
+  scale_y_log10() +
+  geom_smooth(method = "lm") +
+  scale_fill_brewer(palette = "Pastel2")
+```
+But I want to do more!
+Evaluate this code and describe the result. Presumably the analyst’s intent was to get the data for Rwanda and Afghanistan.
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+Above code showed that there are 6 records for each of Rwanda and Afghanistan. Let validate it with Rwanda data alone
+```{r}
+filter(gapminder, country == "Rwanda")
+```
+From above code, clearly there are more than 6 records for Rwanda, that means the code provided was incorrect because it lead to miss data.
+
+Here are two ways to correct this:
+```{r}
+filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+filter(gapminder, country == "Rwanda" | country == "Afghanistan")
+```
+
+
+```{r}
+a=filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+knitr::kable(a)
+```
+
+Use more of the dplyr functions for operating on a single table.
+
+Using above table as an example, I will add a column call GDP that contains the GDP value for each countries.
+```{r}
+gapminder%>% 
+  filter(country %in% c("Rwanda", "Afghanistan")) %>% 
+  mutate(GPD=pop*gdpPercap)
 ```
 
 ## R Markdown
