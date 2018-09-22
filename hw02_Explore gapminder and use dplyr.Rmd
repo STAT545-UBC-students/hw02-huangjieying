@@ -4,6 +4,11 @@ author: JennyHuang
 date: 2018-09-20
 output: github_document
 ---
+```{r setup, include=FALSE}
+chooseCRANmirror(graphics=FALSE, ind=1)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
 Load the data
 ```{r}
 install.packages("gapminder")
@@ -82,7 +87,7 @@ gapminder %>%
 ```
 What does it look like when life expectancy is between 60 and 80? This time I will combine histogram with density plot:
 
-```{r setup, include=FALSE}
+```{r}
 gapminder %>% 
   filter(continent=='Asia') %>% 
   filter(lifeExp<='80'&lifeExp>='60') %>% 
@@ -137,7 +142,7 @@ filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
 filter(gapminder, country == "Rwanda" | country == "Afghanistan")
 ```
 
-
+Present numerical tables in a more attractive form, such as using knitr::kable().
 ```{r}
 a=filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
 knitr::kable(a)
