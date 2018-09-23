@@ -11,7 +11,7 @@ install.packages("gapminder")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpJKsukZ/downloaded_packages
+    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpxgJmIF/downloaded_packages
 
 ``` r
 install.packages("tidyverse")
@@ -19,7 +19,7 @@ install.packages("tidyverse")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpJKsukZ/downloaded_packages
+    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpxgJmIF/downloaded_packages
 
 ``` r
 library(gapminder)
@@ -181,7 +181,7 @@ gapminder %>%
   ggplot(aes(lifeExp, gdpPercap))+geom_point()
 ```
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/lifeExp%20vs.%20gdpPercap%20in%20Americas-1.png)<!-- -->
 Noticed the relationship between life expectancy and gdp per capita in
 Americas, now I want to explore life expectancy along, see how the data
 is distributed. Let’s explore this within Asia countries this time
@@ -193,7 +193,7 @@ gapminder %>%
   geom_histogram(bins=50)
 ```
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/Histogram%20of%20lifeExp%20in%20Aisa-1.png)<!-- -->
 What does it look like when life expectancy is between 60 and 80? This
 time I will combine histogram with density plot:
 
@@ -208,7 +208,7 @@ gapminder %>%
 
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/Asia%20btw%2060-80-1.png)<!-- -->
 How does the life expectancy varies among continents? One way to explore
 this is to use boxplot
 
@@ -219,7 +219,7 @@ gapminder %>%
   scale_fill_brewer(palette = "Pastel2")
 ```
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/boxplot%20options-1.png)<!-- -->
 Another way to look at this is using the combination of violin and
 jitter. This will maximize the presentation of actual data.
 
@@ -232,7 +232,7 @@ geom_violin()+
   guides(fill=FALSE) ## Noticed from bove boxplot, we propobaly don't need a legend since it already show color for each continent
 ```
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/violin%20and%20jitter-1.png)<!-- -->
 
 Use filter(), select() and %\>% Now I will use both `filter()` and
 `select()`, and piping into `ggplot()`. This time let explore the
@@ -251,7 +251,7 @@ gapminder %>%
   scale_fill_brewer(palette = "Pastel2")
 ```
 
-![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/lifeExp%20vs.%20gdp%20in%20Asia%20and%20Europe-1.png)<!-- -->
 But I want to do more\! Evaluate this code and describe the result.
 Presumably the analyst’s intent was to get the data for Rwanda and
 Afghanistan.

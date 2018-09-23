@@ -73,13 +73,13 @@ table(continent) ## example of a categorical variable
 
 Explore various plot types
 First, I want to explore the relationship between life expectancy and gdp per capita in Americas.
-```{r}
+```{r lifeExp vs. gdpPercap in Americas}
 gapminder %>% 
   filter(continent=='Americas') %>% 
   ggplot(aes(lifeExp, gdpPercap))+geom_point()
 ```
 Noticed the relationship between life expectancy and gdp per capita in Americas, now I want to explore life expectancy along, see how the data is distributed. Let's explore this within Asia countries this time
-```{r}
+```{r Histogram of lifeExp in Aisa}
 gapminder %>% 
   filter(continent=='Asia') %>% 
   ggplot( aes(lifeExp))+
@@ -87,7 +87,7 @@ gapminder %>%
 ```
 What does it look like when life expectancy is between 60 and 80? This time I will combine histogram with density plot:
 
-```{r}
+```{r Asia btw 60-80}
 gapminder %>% 
   filter(continent=='Asia') %>% 
   filter(lifeExp<='80'&lifeExp>='60') %>% 
@@ -96,14 +96,14 @@ gapminder %>%
   geom_density()
 ```
 How does the life expectancy varies among continents? One way to explore this is to use boxplot
-```{r}
+```{r boxplot options}
 gapminder %>% 
   ggplot(aes(continent,lifeExp, fill=continent)) +
   geom_boxplot()+
   scale_fill_brewer(palette = "Pastel2")
 ```
 Another way to look at this is using the combination of violin and jitter. This will maximize the presentation of actual data.
-```{r}
+```{r violin and jitter}
 gapminder %>% 
   ggplot(aes(continent,lifeExp, fill=continent)) +
 geom_violin()+
@@ -114,7 +114,7 @@ geom_violin()+
 
 Use filter(), select() and %>%
 Now I will use both `filter()` and `select()`, and piping into `ggplot()`. This time let explore the relationship between life expectancy range from 50 to 80 and gdp per capita in a different scale.
-```{r}
+```{r lifeExp vs. gdp in Asia and Europe}
 gapminder %>% 
   select(continent,lifeExp,gdpPercap) %>% 
   filter(continent=='Europe'|continent=='Asia') %>% 
