@@ -49,9 +49,9 @@ str(gapminder)
 From `str()` output, we can see that:
 * country is factor
 * continent is factor
-* year is integar 
+* year is integer 
 * lifeExp is number
-* population is integar
+* population is integer
 
 #Explore individual variables
 First, I will select variables I want to explore from gapminder
