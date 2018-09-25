@@ -9,7 +9,7 @@ chooseCRANmirror(graphics=FALSE, ind=1)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Load the data
+## Load the data
 ```{r}
 install.packages("gapminder")
 install.packages("tidyverse")
@@ -17,7 +17,7 @@ library(gapminder)
 library(tidyverse)
 ```
 
-#Smell test the data
+## Smell test the data
 Before exploring the dataset in detail, I will take a look at the head and tail of the dataset.
 ```{r}
 head(gapminder) ## this allows us to see the top six rows of the data
@@ -37,23 +37,24 @@ class(gapminder)
 ```
 `class() `function also confirms that gapminder is a dataframe!
 
-Although `str()` already tells number of columns and rows in gapminder, there are different command we can use to check it. 
+Although `str()` already tells number of columns and rows in gapminder, there are different commands we can use to check it. 
 ```{r}
-ncol(gapminder) ## column=6
-nrow(gapminder)  ## row=1704
+ncol(gapminder) ## total columns in the dataset
+nrow(gapminder)  ## total rows in the dataset 
 ```
 To check data type of each variable, we can also use `str()`
 ```{r}
 str(gapminder)
 ```
 From `str()` output, we can see that:
-* country is factor
-* continent is factor
-* year is integer 
-* lifeExp is number
-* population is integer
 
-#Explore individual variables
+-  country is factor
+-  continent is factor
+-  year is integer 
+-  lifeExp is number
+-  population is integer
+
+## Explore individual variables
 First, I will select variables I want to explore from gapminder
 ```{r}
 life=gapminder$lifeExp ## this is a quantitative variable
@@ -71,13 +72,14 @@ For categorical variable, we can use `table()` function to check the count value
 table(continent) ## example of a categorical variable
 ```
 
-Explore various plot types
+## Explore various plot types
 First, I want to explore the relationship between life expectancy and gdp per capita in Americas.
 ```{r lifeExp vs. gdpPercap in Americas}
 gapminder %>% 
   filter(continent=='Americas') %>% 
   ggplot(aes(lifeExp, gdpPercap))+geom_point()
 ```
+
 Noticed the relationship between life expectancy and gdp per capita in Americas, now I want to explore life expectancy along, see how the data is distributed. Let's explore this within Asia countries this time
 ```{r Histogram of lifeExp in Aisa}
 gapminder %>% 
@@ -85,6 +87,7 @@ gapminder %>%
   ggplot( aes(lifeExp))+
   geom_histogram(bins=50)
 ```
+
 What does it look like when life expectancy is between 60 and 80? This time I will combine histogram with density plot:
 
 ```{r Asia btw 60-80}
@@ -95,6 +98,7 @@ gapminder %>%
   geom_histogram(aes(y=..density.., fill="orange"))+
   geom_density()
 ```
+
 How does the life expectancy varies among continents? One way to explore this is to use boxplot
 ```{r boxplot options}
 gapminder %>% 
@@ -102,6 +106,7 @@ gapminder %>%
   geom_boxplot()+
   scale_fill_brewer(palette = "Pastel2")
 ```
+
 Another way to look at this is using the combination of violin and jitter. This will maximize the presentation of actual data.
 ```{r violin and jitter}
 gapminder %>% 
@@ -112,7 +117,8 @@ geom_violin()+
   guides(fill=FALSE) ## Noticed from bove boxplot, we propobaly don't need a legend since it already show color for each continent
 ```
 
-Use filter(), select() and %>%
+## Use filter(), select() and %>%
+
 Now I will use both `filter()` and `select()`, and piping into `ggplot()`. This time let explore the relationship between life expectancy range from 50 to 80 and gdp per capita in a different scale.
 ```{r lifeExp vs. gdp in Asia and Europe}
 gapminder %>% 
@@ -125,7 +131,9 @@ gapminder %>%
   geom_smooth(method = "lm") +
   scale_fill_brewer(palette = "Pastel2")
 ```
-But I want to do more!
+
+## But I want to do more!
+
 Evaluate this code and describe the result. Presumably the analyst’s intent was to get the data for Rwanda and Afghanistan.
 ```{r}
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
@@ -144,8 +152,8 @@ filter(gapminder, country == "Rwanda" | country == "Afghanistan")
 
 Present numerical tables in a more attractive form, such as using knitr::kable().
 ```{r}
-a=filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
-knitr::kable(a)
+filter(gapminder, country %in% c("Rwanda", "Afghanistan")) %>% 
+knitr::kable()
 ```
 
 Use more of the dplyr functions for operating on a single table.

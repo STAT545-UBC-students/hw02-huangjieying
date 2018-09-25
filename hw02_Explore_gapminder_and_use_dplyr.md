@@ -3,7 +3,7 @@ hw02-Explore Gapminder and use dplyr
 JennyHuang
 2018-09-20
 
-Load the data
+## Load the data
 
 ``` r
 install.packages("gapminder")
@@ -11,7 +11,7 @@ install.packages("gapminder")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpqvnbzU/downloaded_packages
+    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//Rtmpqcz7OK/downloaded_packages
 
 ``` r
 install.packages("tidyverse")
@@ -19,26 +19,28 @@ install.packages("tidyverse")
 
     ## 
     ## The downloaded binary packages are in
-    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//RtmpqvnbzU/downloaded_packages
+    ##  /var/folders/kp/7m5qwjbn55dbqyxq4xcvvz_m0000gp/T//Rtmpqcz7OK/downloaded_packages
 
 ``` r
 library(gapminder)
 library(tidyverse)
 ```
 
-    ## ── Attaching packages ─────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
 
     ## ✔ ggplot2 3.0.0     ✔ purrr   0.2.5
     ## ✔ tibble  1.4.2     ✔ dplyr   0.7.6
     ## ✔ tidyr   0.8.1     ✔ stringr 1.3.1
     ## ✔ readr   1.1.1     ✔ forcats 0.3.0
 
-    ## ── Conflicts ────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
     ## ✖ dplyr::filter() masks stats::filter()
     ## ✖ dplyr::lag()    masks stats::lag()
 
-\#Smell test the data Before exploring the dataset in detail, I will
-take a look at the head and tail of the dataset.
+## Smell test the data
+
+Before exploring the dataset in detail, I will take a look at the head
+and tail of the dataset.
 
 ``` r
 head(gapminder) ## this allows us to see the top six rows of the data
@@ -98,16 +100,16 @@ class(gapminder)
 `class()`function also confirms that gapminder is a dataframe\!
 
 Although `str()` already tells number of columns and rows in gapminder,
-there are different command we can use to check it.
+there are different commands we can use to check it.
 
 ``` r
-ncol(gapminder) ## column=6
+ncol(gapminder) ## total columns in the dataset
 ```
 
     ## [1] 6
 
 ``` r
-nrow(gapminder)  ## row=1704
+nrow(gapminder)  ## total rows in the dataset 
 ```
 
     ## [1] 1704
@@ -127,12 +129,17 @@ str(gapminder)
     ##  $ pop      : int  8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
     ##  $ gdpPercap: num  779 821 853 836 740 ...
 
-From `str()` output, we can see that: \* country is factor \* continent
-is factor \* year is integer \* lifeExp is number \* population is
-integer
+From `str()` output, we can see that:
 
-\#Explore individual variables First, I will select variables I want to
-explore from gapminder
+  - country is factor
+  - continent is factor
+  - year is integer
+  - lifeExp is number
+  - population is integer
+
+## Explore individual variables
+
+First, I will select variables I want to explore from gapminder
 
 ``` r
 life=gapminder$lifeExp ## this is a quantitative variable
@@ -172,8 +179,10 @@ table(continent) ## example of a categorical variable
     ##   Africa Americas     Asia   Europe  Oceania 
     ##      624      300      396      360       24
 
-Explore various plot types First, I want to explore the relationship
-between life expectancy and gdp per capita in Americas.
+## Explore various plot types
+
+First, I want to explore the relationship between life expectancy and
+gdp per capita in Americas.
 
 ``` r
 gapminder %>% 
@@ -182,6 +191,7 @@ gapminder %>%
 ```
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/lifeExp%20vs.%20gdpPercap%20in%20Americas-1.png)<!-- -->
+
 Noticed the relationship between life expectancy and gdp per capita in
 Americas, now I want to explore life expectancy along, see how the data
 is distributed. Let’s explore this within Asia countries this time
@@ -194,6 +204,7 @@ gapminder %>%
 ```
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/Histogram%20of%20lifeExp%20in%20Aisa-1.png)<!-- -->
+
 What does it look like when life expectancy is between 60 and 80? This
 time I will combine histogram with density plot:
 
@@ -209,6 +220,7 @@ gapminder %>%
     ## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/Asia%20btw%2060-80-1.png)<!-- -->
+
 How does the life expectancy varies among continents? One way to explore
 this is to use boxplot
 
@@ -220,6 +232,7 @@ gapminder %>%
 ```
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/boxplot%20options-1.png)<!-- -->
+
 Another way to look at this is using the combination of violin and
 jitter. This will maximize the presentation of actual data.
 
@@ -234,10 +247,11 @@ geom_violin()+
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/violin%20and%20jitter-1.png)<!-- -->
 
-Use filter(), select() and %\>% Now I will use both `filter()` and
-`select()`, and piping into `ggplot()`. This time let explore the
-relationship between life expectancy range from 50 to 80 and gdp per
-capita in a different scale.
+## Use filter(), select() and %\>%
+
+Now I will use both `filter()` and `select()`, and piping into
+`ggplot()`. This time let explore the relationship between life
+expectancy range from 50 to 80 and gdp per capita in a different scale.
 
 ``` r
 gapminder %>% 
@@ -252,9 +266,11 @@ gapminder %>%
 ```
 
 ![](hw02_Explore_gapminder_and_use_dplyr_files/figure-gfm/lifeExp%20vs.%20gdp%20in%20Asia%20and%20Europe-1.png)<!-- -->
-But I want to do more\! Evaluate this code and describe the result.
-Presumably the analyst’s intent was to get the data for Rwanda and
-Afghanistan.
+
+## But I want to do more\!
+
+Evaluate this code and describe the result. Presumably the analyst’s
+intent was to get the data for Rwanda and Afghanistan.
 
 ``` r
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
@@ -346,8 +362,8 @@ Present numerical tables in a more attractive form, such as using
 knitr::kable().
 
 ``` r
-a=filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
-knitr::kable(a)
+filter(gapminder, country %in% c("Rwanda", "Afghanistan")) %>% 
+knitr::kable()
 ```
 
 | country     | continent | year | lifeExp |      pop | gdpPercap |
